@@ -6,6 +6,6 @@ enum AnimationEnum {
   hands_down,
   fail,
   success,
-  look_down_right,
-  look_down_left,
+  Look_down_right,
+  Look_down_left,
 }
