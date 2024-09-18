@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:animation_splash_login/logic/theme_cubit/cubit/theme_cubit.dart';
 import 'package:animation_splash_login/presentation/widgets/animation_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rive/rive.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -99,6 +101,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
+  void dispose() {
+    passwordFocusNode
+        .removeListener(checkForPasswordFocusNodeToChangeAnimation);
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     controllerIdle = SimpleAnimation(AnimationEnum.idle.name);
@@ -115,32 +124,37 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+
+        // backgroundColor: const Color.fromARGB(255, 213, 222, 225),
         body: Padding(
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width / 20),
           child: Column(
-            
             children: [
-                SizedBox(
-                        height: MediaQuery.of(context).size.height / 25,
-                      ),
+              ListTile(
+                  leading: isDarkMode ? Icon(Icons.dark_mode) : Icon(Icons.light_mode),
+                  title: isDarkMode ? Text("Dark Theme") : Text("Light Theme"),
+                  trailing: Switch(
+                value: isDarkMode,
+                onChanged: (value) {
+                  context.read<ThemeCubit>().toggleTheme(!isDarkMode);
+                }),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 25,
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 3,
                 child: riveArtboard == null
                     ? SizedBox.shrink()
-                    : Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white
-                      ),
-                      child: Rive(artboard: riveArtboard!)),
+                    : Rive(artboard: riveArtboard!),
               ),
-
-                SizedBox(
-                        height: MediaQuery.of(context).size.height / 25,
-                      ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 25,
+              ),
               Form(
                   key: formKey,
                   child: Column(
@@ -186,7 +200,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           decoration: BoxDecoration(
                               color: Colors.blue,
                               borderRadius: BorderRadius.circular(18)),
-                              padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height/70),
+                          padding: EdgeInsets.symmetric(
+                              vertical:
+                                  MediaQuery.of(context).size.height / 70),
                           child: InkWell(
                             onTap: () {
                               passwordFocusNode.unfocus();
@@ -195,8 +211,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Center(
                               child: Text(
                                 "Login",
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 20),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
                               ),
                             ),
                           ))

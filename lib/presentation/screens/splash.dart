@@ -53,7 +53,7 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color.fromARGB(255, 213, 222, 225),
         body: Center(
           child: SizedBox(
             width: MediaQuery.of(context).size.width/2,
