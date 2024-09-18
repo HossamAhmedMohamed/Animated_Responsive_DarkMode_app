@@ -129,96 +129,98 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
 
         // backgroundColor: const Color.fromARGB(255, 213, 222, 225),
-        body: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width / 20),
-          child: Column(
-            children: [
-              ListTile(
-                  leading: isDarkMode ? Icon(Icons.dark_mode) : Icon(Icons.light_mode),
-                  title: isDarkMode ? Text("Dark Theme") : Text("Light Theme"),
-                  trailing: Switch(
-                value: isDarkMode,
-                onChanged: (value) {
-                  context.read<ThemeCubit>().toggleTheme(!isDarkMode);
-                }),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 25,
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 3,
-                child: riveArtboard == null
-                    ? SizedBox.shrink()
-                    : Rive(artboard: riveArtboard!),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 25,
-              ),
-              Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        decoration: InputDecoration(
-                            labelText: "Email",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15))),
-                        validator: (value) =>
-                            value != testEmail ? "Wrong Email" : null,
-                        onChanged: (value) {
-                          if (value.isNotEmpty &&
-                              value.length < 16 &&
-                              !isLookingLeft) {
-                            addLookLeftController();
-                          } else if (value.isNotEmpty &&
-                              value.length > 16 &&
-                              !isLookingRight) {
-                            addLookRightController();
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 25,
-                      ),
-                      TextFormField(
-                        obscureText: true,
-                        focusNode: passwordFocusNode,
-                        decoration: InputDecoration(
-                            labelText: "Password",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15))),
-                        validator: (value) =>
-                            value != testPassword ? "Wrong Password" : null,
-                        onChanged: (value) {},
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 25,
-                      ),
-                      Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(18)),
-                          padding: EdgeInsets.symmetric(
-                              vertical:
-                                  MediaQuery.of(context).size.height / 70),
-                          child: InkWell(
-                            onTap: () {
-                              passwordFocusNode.unfocus();
-                              validateEmailAndPassword();
-                            },
-                            child: Center(
-                              child: Text(
-                                "Login",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width / 20),
+            child: Column(
+              children: [
+                ListTile(
+                    leading: isDarkMode ? Icon(Icons.dark_mode) : Icon(Icons.light_mode),
+                    title: isDarkMode ? Text("Dark Theme") : Text("Light Theme"),
+                    trailing: Switch(
+                  value: isDarkMode,
+                  onChanged: (value) {
+                    context.read<ThemeCubit>().toggleTheme(!isDarkMode);
+                  }),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 25,
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: riveArtboard == null
+                      ? SizedBox.shrink()
+                      : Rive(artboard: riveArtboard!),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 25,
+                ),
+                Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration: InputDecoration(
+                              labelText: "Email",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15))),
+                          validator: (value) =>
+                              value != testEmail ? "Wrong Email" : null,
+                          onChanged: (value) {
+                            if (value.isNotEmpty &&
+                                value.length < 16 &&
+                                !isLookingLeft) {
+                              addLookLeftController();
+                            } else if (value.isNotEmpty &&
+                                value.length > 16 &&
+                                !isLookingRight) {
+                              addLookRightController();
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 25,
+                        ),
+                        TextFormField(
+                          obscureText: true,
+                          focusNode: passwordFocusNode,
+                          decoration: InputDecoration(
+                              labelText: "Password",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15))),
+                          validator: (value) =>
+                              value != testPassword ? "Wrong Password" : null,
+                          onChanged: (value) {},
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 25,
+                        ),
+                        Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(18)),
+                            padding: EdgeInsets.symmetric(
+                                vertical:
+                                    MediaQuery.of(context).size.height / 70),
+                            child: InkWell(
+                              onTap: () {
+                                passwordFocusNode.unfocus();
+                                validateEmailAndPassword();
+                              },
+                              child: Center(
+                                child: Text(
+                                  "Login",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
                               ),
-                            ),
-                          ))
-                    ],
-                  ))
-            ],
+                            ))
+                      ],
+                    ))
+              ],
+            ),
           ),
         ),
       ),
